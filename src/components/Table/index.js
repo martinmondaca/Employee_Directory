@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import API from "../../utils/API"
 import Row from "../Row/index"
+import Filter from "../Filter/index"
 
 class Table extends Component {
     state = {
-        results: []
+        results: [],
+        firstNameFilter: ""
     };
 
     componentDidMount() {
@@ -46,33 +48,48 @@ class Table extends Component {
     //     console.log(this.state.results)
 
     // }
+    handleFirstNameFilter = event => {
+        const filterBy = event.target.value;
+        this.setState({ firstNameFilter: filterBy });
+        console.log(this.state.firstNameFilter)
+    }
 
-
+    handleFirstNameFilterSubmit = event => {
+        event.preventDefault();
+        const filteredByFirstName = this.state.results.filter(each => each.name.first.toLowerCase().includes(this.state.firstNameFilter.toLocaleLowerCase()))
+        this.setState({ results: filteredByFirstName })
+        console.log(this.state.results)
+        console.log(this.state.firstNameFilter)
+    }
 
 
     render() {
         return (
+            <>
+                <Filter
+                    firstNameFilter={this.state.firstNameFilter}
+                    handleFirstNameFilter={this.handleFirstNameFilter}
+                    handleFirstNameFilterSubmit={this.handleFirstNameFilterSubmit}
+                />
+                <div className="col">
 
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Employee</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Login</th>
+                                <th scope="col">Phone Number</th>
+                            </tr>
+                        </thead>
+                        <Row results={this.state.results} />
 
-            <div className="col">
+                    </table>
 
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Employee</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Login</th>
-                            <th scope="col">Phone Number</th>
-                        </tr>
-                    </thead>
-                    <Row results={this.state.results} />
-
-                </table>
-
-            </div>
-
+                </div>
+            </>
         )
     }
 

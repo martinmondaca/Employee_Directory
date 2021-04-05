@@ -6,7 +6,8 @@ import Filter from "../Filter/index"
 class Table extends Component {
     state = {
         results: [],
-        firstNameFilter: ""
+        firstNameFilter: "",
+        filteredResults: []
     };
 
     componentDidMount() {
@@ -57,7 +58,7 @@ class Table extends Component {
     handleFirstNameFilterSubmit = event => {
         event.preventDefault();
         const filteredByFirstName = this.state.results.filter(each => each.name.first.toLowerCase().includes(this.state.firstNameFilter.toLocaleLowerCase()))
-        this.setState({ results: filteredByFirstName })
+        this.setState({ filteredResults: filteredByFirstName })
         console.log(this.state.results)
         console.log(this.state.firstNameFilter)
     }
@@ -84,7 +85,7 @@ class Table extends Component {
                                 <th scope="col">Phone Number</th>
                             </tr>
                         </thead>
-                        <Row results={this.state.results} />
+                        <Row results={(this.state.firstNameFilter === "" && this.state.filteredResults.length === 0) ? this.state.results : this.state.filteredResults} />
 
                     </table>
 

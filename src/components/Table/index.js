@@ -53,6 +53,9 @@ class Table extends Component {
         const filterBy = event.target.value;
         this.setState({ firstNameFilter: filterBy });
         console.log(this.state.firstNameFilter)
+        if (event.target.value === "") {
+            this.setState({ filteredResults: [] })
+        }
     }
 
     handleFirstNameFilterSubmit = event => {
@@ -72,23 +75,23 @@ class Table extends Component {
                     handleFirstNameFilter={this.handleFirstNameFilter}
                     handleFirstNameFilterSubmit={this.handleFirstNameFilterSubmit}
                 />
-                <div className="col">
+                <div className="row">
+                    <div className="col">
 
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Employee</th>
-                                <th scope="col">First Name</th>
-                                <th scope="col">Last Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Login</th>
-                                <th scope="col">Phone Number</th>
-                            </tr>
-                        </thead>
-                        <Row results={(this.state.firstNameFilter === "" && this.state.filteredResults.length === 0) ? this.state.results : this.state.filteredResults} />
-
-                    </table>
-
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th onClick={() => alert("hi")} scope="col">Employee</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Login</th>
+                                    <th scope="col">Phone Number</th>
+                                </tr>
+                            </thead>
+                            <Row results={(this.state.firstNameFilter === "" || this.state.filteredResults.length === 0) ? this.state.results : this.state.filteredResults} />
+                        </table>
+                    </div>
                 </div>
             </>
         )

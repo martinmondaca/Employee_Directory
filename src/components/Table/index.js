@@ -11,11 +11,11 @@ class Table extends Component {
     };
 
     componentDidMount() {
-        this.searchRandoEmp(50)
+        this.searchRandomEmp(50)
     }
 
 
-    searchRandoEmp = query => {
+    searchRandomEmp = query => {
         API.search(query)
             .then(res => {
                 this.setState({
@@ -29,7 +29,7 @@ class Table extends Component {
             .catch(err => console.log(err));
     };
 
-    // searchRandoEmp = query => {
+    // searchRandomEmp = query => {
     //     API.search(query)
     //         .then(results => {
     //             console.log(results.data.results)
@@ -66,6 +66,33 @@ class Table extends Component {
         console.log(this.state.firstNameFilter)
     }
 
+    //numerical sort
+    compareNumbers = (a, b) => { return a - b };
+
+    //first name sort
+    sortByFirstName = () => {
+
+        let results = this.state.results.sort((a, b) => {
+            return a.name.first.localeCompare(b.name.first)
+        })
+        this.setState({ results: results })
+    }
+
+    //last name sort
+    sortByLastName = () => {
+
+        let results = this.state.results.sort((a, b) => {
+            return a.name.last.localeCompare(b.name.last)
+        })
+        this.setState({ results: results })
+    }
+
+    sortByEmail = () => {
+        let results = this.state.results.sort((a, b) => {
+            return a.email.localeCompare(b.email)
+        })
+        this.setState({ results: results })
+    }
 
     render() {
         return (
@@ -82,9 +109,9 @@ class Table extends Component {
                             <thead>
                                 <tr>
                                     <th onClick={() => alert("hi")} scope="col">Employee</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Email</th>
+                                    <th onClick={() => this.sortByFirstName()} scope="col" >First Name</th>
+                                    <th onClick={() => this.sortByLastName()} scope="col">Last Name</th>
+                                    <th onClick={() => this.sortByEmail()} scope="col">Email</th>
                                     <th scope="col">Login</th>
                                     <th scope="col">Phone Number</th>
                                 </tr>

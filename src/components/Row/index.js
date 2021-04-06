@@ -3,7 +3,6 @@ import React from "react";
 function Row(props) {
     return (
         <tbody>
-            {console.log(props)}
             {props.results.map(employee => (
                 <tr key={employee.id.value}>
                     <th><img alt={[`image of ${employee.name}`]} src={employee.picture.thumbnail}></img></th>

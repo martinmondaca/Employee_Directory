@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Filter/style.css","webpack://src/components/Header/style.css"],"names":[],"mappings":"AAAA,aACI,mBACJ,CCFA,UACQ,cAER,CAEA,OACI,mBACJ","file":"main.54989299.chunk.css","sourcesContent":["#searchField{\n    padding-bottom: 10px;\n}","#appTitle{\n        font-size: 50px\n\n}\n\nheader {\n    padding-bottom: 50px;\n}"]}

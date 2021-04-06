@@ -16,7 +16,6 @@ class Table extends Component {
         this.searchRandomEmp(50)
     }
 
-
     searchRandomEmp = query => {
         API.search(query)
             .then(res => {
@@ -37,7 +36,6 @@ class Table extends Component {
     handleFirstNameFilter = event => {
         const filterBy = event.target.value;
         this.setState({ firstNameFilter: filterBy });
-        console.log(this.state.firstNameFilter)
         if (event.target.value === "") {
             this.setState({ filteredResults: [] })
         }
@@ -45,31 +43,39 @@ class Table extends Component {
 
     handleFirstNameFilterSubmit = event => {
         event.preventDefault();
-        const filteredByFirstName = this.state.results.filter(each => each.name.first.toLowerCase().includes(this.state.firstNameFilter.toLocaleLowerCase()))
+        const filteredByFirstName = this.state.results.filter(each => each.first.toLowerCase().includes(this.state.firstNameFilter.toLocaleLowerCase()))
         this.setState({ filteredResults: filteredByFirstName })
-        console.log(this.state.results)
-        console.log(this.state.firstNameFilter)
+        if (filteredByFirstName.length === 0) {
+            alert("There were no matches!")
+        }
     }
 
-
     sortBy = (columnName) => {
+        if (this.state.filteredResults.length === 0) {
+
+            this.sortResOrFiltRes(columnName, "results")
+
+        } else if (this.state.filteredResults.length > 0) {
+
+            this.sortResOrFiltRes(columnName, "filteredResults")
+        }
+    }
+
+    sortResOrFiltRes = (columnName, whichResults) => {
         const newSortDir = columnName === this.state.sortCol ? !this.state.sortAsc : false
 
         if (newSortDir) {
-            let results = this.state.results.sort((a, b) => {
+            let results = this.state[whichResults].sort((a, b) => {
                 return b[columnName].localeCompare(a[columnName])
             })
-            this.setState({ results: results, sortCol: columnName, sortAsc: true })
-
+            this.setState({ whichResults: results, sortCol: columnName, sortAsc: true })
         } else {
-            let results = this.state.results.sort((a, b) => {
+            let results = this.state[whichResults].sort((a, b) => {
                 return a[columnName].localeCompare(b[columnName])
             })
-            this.setState({ results: results, sortCol: columnName, sortAsc: false })
+            this.setState({ whichResults: results, sortCol: columnName, sortAsc: false })
         }
-
     }
-
 
     render() {
         return (
@@ -81,11 +87,10 @@ class Table extends Component {
                 />
                 <div className="row">
                     <div className="col">
-
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th onClick={() => alert("hi")} scope="col">Employee</th>
+                                    <th scope="col">Employee</th>
                                     <th onClick={() => this.sortBy("first")} scope="col" >First Name</th>
                                     <th onClick={() => this.sortBy("last")} scope="col">Last Name</th>
                                     <th onClick={() => this.sortBy("email")} scope="col">Email</th>

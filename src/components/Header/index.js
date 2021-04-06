@@ -1,15 +1,15 @@
 import React from "react";
 import "./style.css"
 
-function Row() {
+function Header() {
     return (
-        <header className="">
+        <header className="container-fluid">
             <nav className="navbar navbar-dark bg-dark text-center row my-auto">
-                <div className="col">
-                    <span class="app-title navbar-brand mb-0 h1">Employee Directory</span>
-                </div>
+                <h2 className="navbar-brand col" id="appTitle">
+                    Employee Directory
+                </h2>
             </nav>
         </header>)
 }
 
-export default Row;
+export default Header;

@@ -7,7 +7,12 @@ class Table extends Component {
     state = {
         results: [],
         firstNameFilter: "",
-        filteredResults: []
+        filteredResults: [],
+        sortAscDescFirst: true,
+        sortAscDescLast: true,
+        sortAscDescEmail: true,
+        sortAscDescLogin: true,
+        sortAscDescPhone: true,
     };
 
     componentDidMount() {
@@ -22,33 +27,9 @@ class Table extends Component {
                     results: res.data.results
                 })
             })
-            // console.log(this.state.results.results[0])
-            // console.log(this.state.results)
-            // console.log(typeof (this.state.results))
-
             .catch(err => console.log(err));
     };
 
-    // searchRandomEmp = query => {
-    //     API.search(query)
-    //         .then(results => {
-    //             console.log(results.data.results)
-    //             this.setState(results.data.results.map(employee => {
-    //                 return {
-    //                     key: employee.id.value,
-    //                     img: employee.picture.thumbnail,
-    //                     first_name: employee.name.first,
-    //                     last_name: employee.name.last_name,
-    //                     email: employee.email,
-    //                     login: employee.login.username,
-    //                     phone_number: employee.phone
-    //                 }
-    //             }))
-    //         })
-    //     console.log("saved state")
-    //     console.log(this.state.results)
-
-    // }
     handleFirstNameFilter = event => {
         const filterBy = event.target.value;
         this.setState({ firstNameFilter: filterBy });
@@ -66,33 +47,113 @@ class Table extends Component {
         console.log(this.state.firstNameFilter)
     }
 
-    //numerical sort
-    compareNumbers = (a, b) => { return a - b };
-
     //first name sort
-    sortByFirstName = () => {
+    sortByFirstName = (column) => {
+        if (this.state.filteredResults.length === 0) {
+            if (this.state.sortAscDescFirst) {
+                let results = this.state.results.sort((a, b) => {
+                    return a.name.first.localeCompare(b.name.first)
+                })
+                this.setState({ results: results })
+                this.setState({ sortAscDescFirst: false })
+            } else {
+                let results = this.state.results.sort((a, b) => {
+                    return b.name.first.localeCompare(a.name.first)
+                })
+                this.setState({ results: results })
+                this.setState({ sortAscDescFirst: true })
+            }
+            this.setState({ sortAscDescLast: true, sortAscDescEmail: true, sortAscDescLogin: true, sortAscDescPhone: true })
+        } else if (this.state.filteredResults.length > 0) {
+            if (this.state.sortAscDescFirst) {
+                let results = this.state.filteredResults.sort((a, b) => {
+                    return a.name.first.localeCompare(b.name.first)
+                })
+                this.setState({ filteredResults: results })
+                this.setState({ sortAscDescFirst: false })
+            } else {
+                let results = this.state.filteredResults.sort((a, b) => {
+                    return b.name.first.localeCompare(a.name.first)
+                })
+                this.setState({ filteredResults: results })
+                this.setState({ sortAscDescFirst: true })
+            }
+            this.setState({ sortAscDescLast: true, sortAscDescEmail: true, sortAscDescLogin: true, sortAscDescPhone: true })
+        }
 
-        let results = this.state.results.sort((a, b) => {
-            return a.name.first.localeCompare(b.name.first)
-        })
-        this.setState({ results: results })
     }
 
     //last name sort
     sortByLastName = () => {
 
-        let results = this.state.results.sort((a, b) => {
-            return a.name.last.localeCompare(b.name.last)
-        })
-        this.setState({ results: results })
+        if (this.state.sortAscDescLast) {
+            let results = this.state.results.sort((a, b) => {
+                return a.name.last.localeCompare(b.name.last)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescLast: false })
+        } else {
+            let results = this.state.results.sort((a, b) => {
+                return b.name.last.localeCompare(a.name.last)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescLast: true })
+        }
+        this.setState({ sortAscDescFirst: true, sortAscDescEmail: true, sortAscDescLogin: true, sortAscDescPhone: true })
+
     }
 
     sortByEmail = () => {
-        let results = this.state.results.sort((a, b) => {
-            return a.email.localeCompare(b.email)
-        })
-        this.setState({ results: results })
+        if (this.state.sortAscDescEmail) {
+            let results = this.state.results.sort((a, b) => {
+                return a.email.localeCompare(b.email)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescEmail: false })
+        } else {
+            let results = this.state.results.sort((a, b) => {
+                return b.email.localeCompare(a.email)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescEmail: true })
+        }
+        this.setState({ sortByFirstName: true, sortAscDescLast: true, sortAscDescLogin: true, sortAscDescPhone: true })
     }
+
+    sortByLogin = () => {
+        if (this.state.sortAscDescLogin) {
+            let results = this.state.results.sort((a, b) => {
+                return a.login.username.localeCompare(b.login.username)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescLogin: false })
+        } else {
+            let results = this.state.results.sort((a, b) => {
+                return b.login.username.localeCompare(a.login.username)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescLogin: true })
+        }
+        this.setState({ sortByFirstName: true, sortAscDescLast: true, sortAscDescEmail: true, sortAscDescPhone: true })
+    }
+
+    sortByPhone = () => {
+        if (this.state.sortAscDescPhone) {
+            let results = this.state.results.sort((a, b) => {
+                return a.phone.localeCompare(b.phone)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescPhone: false })
+        } else {
+            let results = this.state.results.sort((a, b) => {
+                return b.phone.localeCompare(a.phone)
+            })
+            this.setState({ results: results })
+            this.setState({ sortAscDescPhone: true })
+        }
+        this.setState({ sortByFirstName: true, sortAscDescLast: true, sortAscDescEmail: true, sortAscDescLogin: true })
+    }
+
 
     render() {
         return (
@@ -109,11 +170,11 @@ class Table extends Component {
                             <thead>
                                 <tr>
                                     <th onClick={() => alert("hi")} scope="col">Employee</th>
-                                    <th onClick={() => this.sortByFirstName()} scope="col" >First Name</th>
+                                    <th onClick={() => this.sortByFirstName("name.first")} scope="col" >First Name</th>
                                     <th onClick={() => this.sortByLastName()} scope="col">Last Name</th>
                                     <th onClick={() => this.sortByEmail()} scope="col">Email</th>
-                                    <th scope="col">Login</th>
-                                    <th scope="col">Phone Number</th>
+                                    <th onClick={() => this.sortByLogin()} scope="col">Login</th>
+                                    <th onClick={() => this.sortByPhone()} scope="col">Phone Number</th>
                                 </tr>
                             </thead>
                             <Row results={(this.state.firstNameFilter === "" || this.state.filteredResults.length === 0) ? this.state.results : this.state.filteredResults} />
@@ -123,12 +184,6 @@ class Table extends Component {
             </>
         )
     }
-
-
-    // key img first_name last_name email login phone_number
-
-
-
 }
 
 export default Table;

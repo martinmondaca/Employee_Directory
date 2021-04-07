@@ -39,9 +39,9 @@
   ## Usage
   
 1. Upon loading the application you will be presented with 50 employees.
-1. You can click on each header in order to sort employees by first name, last name, email, login, or phone number.
+1. You can click on each column header in order to sort employees by first name, last name, email, login, or phone number.
 1. You can also filter employees by first name.
-    * Enter the employees first name or part of their first name in the search field and click the 'Filter' button.
+    * Enter the employee's first name or part of their first name in the search field and click the 'Filter' button.
 1. You can also sort employees and filter by first name at the same time.
 
   ## Images
